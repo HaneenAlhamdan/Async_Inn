@@ -38,3 +38,37 @@ Room-amenities(primary key), air conditioning, coffee maker, ocean view, mini ba
  Rela :- one-to many Room-amenities
 amenities-id (primary key), room-id (foreign keys), Room-amenities-id (composite key)
  
+ *******************************************************************************************
+ *******************************************************************************************
+ 
+ ## Endpoints
+ 
+ ### Amenity
+ * GET: api/Amenities
+ * GET: api/Amenities/{id}
+ * PUT: api/Amenities/{id}	
+ * POST: api/Amenities	
+ * DELETE: api/Amenities/{id}
+
+### HotelRooms
+* GET: api/HotelRooms
+* GET: api/HotelRooms/{hotelId}/Rooms/{roomNumber}
+* PUT: api/HotelRooms/{hotelId}/Rooms/{roomNumber}
+* POST: api/HotelRooms/{hotelId}/Rooms	to add a room to a hotel
+* DELETE: api/HotelRooms/{hotelId}/Rooms/{roomNumber}
+
+### Hotel
+* GET: api/Hotels	
+* GET: api/Hotels/{id}	
+* PUT: api/Hotels/{id}	
+* POST: api/Hotels	
+* DELETE: api/Hotels/{id}
+
+### Room
+* GET: api/Rooms	
+* GET: api/Rooms/{id}	
+* PUT: api/Rooms/{id}	
+* POST: api/Rooms	
+* POST: api/Rooms/{roomId}/Amenity/{amenityId}	
+* DELETE: api/Rooms/{id}	
+* DELETE: api/Rooms/{roomId}/Amenity/{amenityId}
