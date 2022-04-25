@@ -1,5 +1,4 @@
 # Async_Inn
-# Async-Inn
 
 ## Name:- Haneen alhamdan
 ## Date:- 4/14/2022
@@ -40,6 +39,20 @@ amenities-id (primary key), room-id (foreign keys), Room-amenities-id (composite
  
  *******************************************************************************************
  *******************************************************************************************
+ 
+ Using Dependency Injection, I refactored my Hotels, Rooms, HotelsRooms and Amenities Controllers to depend on an interface rather than the DbContext.
+
+Built an interface for each of the controllers that contain the required method signatures to all for CRUD operations to the database directly.
+
+Updated each of the controllers to inject the interface rather than the DBContext.
+
+Created a service for each of the controllers that implement the appropriate interface. Built out the logic to satisfy the interface by making the appropriate calls to the db for each action.
+
+Updated me Controller to use the appropriate method from the interface rather than the DBContext directly.
+
+
+********************************************************************************************
+********************************************************************************************
  
  ## Endpoints
  
