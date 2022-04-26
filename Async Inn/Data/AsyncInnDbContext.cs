@@ -14,8 +14,7 @@ namespace Async_Inn.Data
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Amenity> Amenities { get; set; }
         public DbSet<AmenityRoom> AmenitiesRoom { get; set; }
-
-
+        public object AmenityRoom { get; internal set; }
 
         public AsyncInnDbContext(DbContextOptions options) : base(options)
         {
