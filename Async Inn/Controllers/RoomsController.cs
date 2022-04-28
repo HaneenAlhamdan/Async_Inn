@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Async_Inn.Data;
 using Async_Inn.Models;
+using Async_Inn.Models.DTOs;
+using Async_Inn.Models.Interfaces;
 
 namespace Async_Inn.Controllers
 {
@@ -14,95 +16,69 @@ namespace Async_Inn.Controllers
     [ApiController]
     public class RoomsController : ControllerBase
     {
-        private readonly AsyncInnDbContext _context;
+        private readonly IRoom _room;
 
-        public RoomsController(AsyncInnDbContext context)
+        public RoomsController(IRoom room)
         {
-            _context = context;
+            _room = room;
         }
 
         // GET: api/Rooms
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Room>>> GetRooms()
         {
-            return await _context.Rooms.ToListAsync();
+            var rooms = await _room.GetRooms();
+            return Ok(rooms);
         }
 
         // GET: api/Rooms/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Room>> GetRoom(int id)
+        public async Task<ActionResult<RoomDTO>> GetRoom(int id)
         {
-            var room = await _context.Rooms.FindAsync(id);
-
-            if (room == null)
-            {
-                return NotFound();
-            }
-
-            return room;
+            RoomDTO room = await _room.GetRoom(id);
+            return Ok(room);
         }
 
         // PUT: api/Rooms/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRoom(int id, Room room)
+        public async Task<IActionResult> PutRoom(int id, RoomDTO room)
         {
-            if (id != room.Id)
+            if (id != room.ID)
             {
                 return BadRequest();
             }
-
-            _context.Entry(room).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RoomExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            var modifiedRoom = await _room.UpdateRoom(id, room);
+            return Ok(modifiedRoom);
         }
 
         // POST: api/Rooms
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Room>> PostRoom(Room room)
+        public async Task<ActionResult<Room>> PostRoom(RoomDTO room)
         {
-            _context.Rooms.Add(room);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetRoom", new { id = room.Id }, room);
+            RoomDTO newRoom = await _room.Create(room);
+            return Ok(newRoom);
         }
-
-        // DELETE: api/Rooms/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRoom(int id)
+        // POST: api/Rooms
+        // start server (Run program)
+        // choose POST then -http://localhost:62689/api/Rooms/1/Amenity/2- then send on postman
+        // check RoomAmenities table to make sure data is posted
+        [HttpPost("{roomId}/Amenity/{amenityId}")]
+        public async Task<IActionResult> PostRoomAminity(int RoomId, int AmenityId)
         {
-            var room = await _context.Rooms.FindAsync(id);
-            if (room == null)
-            {
-                return NotFound();
-            }
-
-            _context.Rooms.Remove(room);
-            await _context.SaveChangesAsync();
-
+            await _room.AddAmenityToRoom(RoomId, AmenityId);
             return NoContent();
         }
-
-        private bool RoomExists(int id)
+        // DELETE: api/Rooms/5
+        // start server (Run program)
+        // choose DELETE then -http://localhost:62689/api/Rooms/1/Amenity/2- then send on postman
+        // check RoomAmenities table to make sure data is deleted
+        [HttpDelete("{roomId}/Amenity/{amenityId}")]
+        public async Task<IActionResult> DeleteRoomAminity(int roomId, int amenityId)
         {
-            return _context.Rooms.Any(e => e.Id == id);
+            await _room.RemoveAmenityFromRoom(roomId, amenityId);
+            return NoContent();
         }
     }
 }

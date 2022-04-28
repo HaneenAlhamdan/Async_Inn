@@ -44,8 +44,8 @@ namespace Async_Inn.Data
 
             modelBuilder.Entity<Room>().HasData(
                 new Room { Id = 1, Name = "Studio", Layout = 0 },
-                new Room { Id = 2, Name = "One Bedroom", Layout = 1 },
-                new Room { Id = 3, Name = "Two Bedroom", Layout = 2 }
+                new Room { Id = 2, Name = "One Bedroom", Layout = (Layout)1 },
+                new Room { Id = 3, Name = "Two Bedroom", Layout = (Layout)2 }
 
               );
 
