@@ -1,13 +1,10 @@
 ﻿using Async_Inn.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Async_Inn.Data
 {
-    public class AsyncInnDbContext : DbContext
+    public class AsyncInnDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Room> Rooms { get; set; }
@@ -24,6 +21,8 @@ namespace Async_Inn.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Hotel>().HasData(
               new Hotel { Id = 1, Name = "W Amman", StreetAddress = "13 Rafiq Al Hariri Ave,", City = "Amman", State = "Amman", Country = "Jordan", Phone = "06 530 1111" },
               new Hotel { Id = 2, Name = "Fairmont", StreetAddress = "6 Beirut Street - Fifth Circle", City = "Amman", State = "Amman", Country = "Jordan", Phone = "06 510 6000" },
