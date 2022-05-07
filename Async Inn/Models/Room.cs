@@ -9,16 +9,18 @@ namespace Async_Inn.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Layout Layout { get; set; }
+        public int Layout { get; set; }
+
 
         public List<HotelRoom> HotelRooms { get; set; }
-        public List<AmenityRoom> RoomAmenity { get; set; }
+        public List<RoomAmenity> RoomAmenity { get; set; }
 
     }
+
     public enum Layout
     {
         studio,
         onebedroom,
         twobedroom
     }
-}
+    }

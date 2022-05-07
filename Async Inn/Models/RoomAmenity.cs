@@ -5,14 +5,15 @@ using System.Threading.Tasks;
 
 namespace Async_Inn.Models
 {
-    public class AmenityRoom
+    public class RoomAmenity
     {
-        public int AmenetiesID { get; set; }
+        public int AmenityID { get; set; }
         public int RoomID { get; set; }
 
-
+       
         public Amenity Amenity { get; set; }
         public Room Room { get; set; }
+
 
     }
 }
