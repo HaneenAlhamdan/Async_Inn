@@ -33,18 +33,18 @@ namespace Async_Inn.Models.Servieces
         {
             return await _context.Amenities
 
-               .Select(amenity => new AmenityDTO 
+               .Select(amenity => new AmenityDTO // select new AmenityDTO object
                {
                    ID = id,
                    Name = amenity.Name,
-               }).FirstOrDefaultAsync(a => a.ID == id); 
+               }).FirstOrDefaultAsync(a => a.ID == id); // one amenity
         }
 
         public async Task<List<AmenityDTO>> GetAmenities()
         {
             return await _context.Amenities
 
-             .Select(amenity => new AmenityDTO 
+             .Select(amenity => new AmenityDTO // select new AmenityDTO object
              {
                  ID = amenity.Id,
                  Name = amenity.Name,

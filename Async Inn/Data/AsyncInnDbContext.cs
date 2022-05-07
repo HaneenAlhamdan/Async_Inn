@@ -10,11 +10,11 @@ namespace Async_Inn.Data
     public class AsyncInnDbContext : DbContext
     {
         public DbSet<Hotel> Hotels { get; set; }
-        public DbSet<HotelRoom> HotelRooms { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Amenity> Amenities { get; set; }
-        public DbSet<AmenityRoom> AmenitiesRoom { get; set; }
-        public object AmenityRoom { get; internal set; }
+        public DbSet<HotelRoom> HotelRooms { get; set; }
+        public DbSet<RoomAmenity> RoomAmenities { get; set; }
+        
 
         public AsyncInnDbContext(DbContextOptions options) : base(options)
         {
@@ -44,8 +44,8 @@ namespace Async_Inn.Data
 
             modelBuilder.Entity<Room>().HasData(
                 new Room { Id = 1, Name = "Studio", Layout = 0 },
-                new Room { Id = 2, Name = "One Bedroom", Layout = (Layout)1 },
-                new Room { Id = 3, Name = "Two Bedroom", Layout = (Layout)2 }
+                new Room { Id = 2, Name = "One Bedroom", Layout = 1 },
+                new Room { Id = 3, Name = "Two Bedroom", Layout = 2 }
 
               );
 
@@ -54,8 +54,8 @@ namespace Async_Inn.Data
 
                            hotelroom => new { hotelroom.RoomNum, hotelroom.HotelId }
                            );
-            modelBuilder.Entity<AmenityRoom>().HasKey(
-                roomamenity => new { roomamenity.AmenetiesID, roomamenity.RoomID }
+            modelBuilder.Entity<RoomAmenity>().HasKey(
+                roomamenity => new { roomamenity.AmenityID, roomamenity.RoomID }
                 );
         }
     }

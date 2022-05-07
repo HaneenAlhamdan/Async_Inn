@@ -23,7 +23,7 @@ namespace Async_Inn.Models.Servieces
             {
                 Id = room.ID,
                 Name = room.Name,
-                Layout = (Layout)room.Layout
+                Layout = (Layout)Enum.Parse(typeof(Layout), room.Layout)
             };
             _context.Entry(room1).State = EntityState.Added;
             await _context.SaveChangesAsync();
@@ -38,7 +38,7 @@ namespace Async_Inn.Models.Servieces
                {
                    ID = id,
                    Name = room.Name,
-                   Layout = (int)room.Layout,
+                   Layout = room.Layout.ToString(),
                    Amenities = room.RoomAmenity
                     .Select(amenity => new AmenityDTO
                     {
@@ -57,7 +57,7 @@ namespace Async_Inn.Models.Servieces
                 {
                     ID = room.Id,
                     Name = room.Name,
-                    Layout = (int)room.Layout,
+                    Layout = room.Layout.ToString(),
                     Amenities = room.RoomAmenity
                      .Select(amenity => new AmenityDTO
                      {
@@ -73,7 +73,7 @@ namespace Async_Inn.Models.Servieces
             {
                 Id = room.ID,
                 Name = room.Name,
-                Layout = (Layout)room.Layout
+                Layout = (Layout)Enum.Parse(typeof(Layout), room.Layout)
             };
             _context.Entry(room1).State = EntityState.Modified;
             await _context.SaveChangesAsync();
@@ -87,19 +87,19 @@ namespace Async_Inn.Models.Servieces
         }
         public async Task AddAmenityToRoom(int roomId, int amenityId)
         {
-            AmenityRoom amenity = new AmenityRoom()
+            RoomAmenity amenity = new RoomAmenity()
             {
-                AmenetiesID = amenityId,
+                AmenityID = amenityId,
                 RoomID = roomId
             };
-            _context.Entry(amenity).State = EntityState.Added; 
+            _context.Entry(amenity).State = EntityState.Added; // because we are creating a new one
             await _context.SaveChangesAsync();
         }
         public async Task RemoveAmenityFromRoom(int roomId, int amenityId)
         {
-            var removedAmenity = await _context.AmenitiesRoom.FirstOrDefaultAsync(i => i.RoomID == roomId && i.AmenetiesID == amenityId);
-            _context.AmenitiesRoom.Remove(removedAmenity);
-           
+            var removedAmenity = await _context.RoomAmenities.FirstOrDefaultAsync(i => i.RoomID == roomId && i.AmenityID == amenityId);
+            _context.RoomAmenities.Remove(removedAmenity);
+            //_context.Entry(removedAmenity).State = EntityState.Deleted;
             await _context.SaveChangesAsync();
         }
     }
