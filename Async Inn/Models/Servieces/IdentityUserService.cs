@@ -1,6 +1,6 @@
 ﻿using Async_Inn.Models.Api;
 using Async_Inn.Models.Interfaces;
-using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Async_Inn.Models.Servieces
 {
-    public class IdentityUserService : IUsers
+    public class IdentityUserService : IUsersServieces
     {
         // Connect to Identity’s “User Manager” to do the database work
         private UserManager<ApplicationUser> _userManager;
