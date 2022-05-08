@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Async_Inn.Models.Interfaces
 {
-    public interface IUsers
+    public interface IUsersServieces
     {
         public Task<UserDto> Register(RegisterUserDto data, ModelStateDictionary modelState);
         public Task<UserDto> Authenticate(string username, string password);
