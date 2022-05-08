@@ -49,7 +49,7 @@ namespace Async_Inn.Models.Servieces
                       {
                           ID = r.Room.Id,
                           Name = r.Room.Name,
-                          Layout = (int)r.Room.Layout,
+                          Layout = r.Room.Layout.ToString(),
                           Amenities = r.Room.RoomAmenity
                          .Select(amenity => new AmenityDTO
                          {
@@ -86,7 +86,7 @@ namespace Async_Inn.Models.Servieces
                         {
                             ID = r.Room.Id,
                             Name = r.Room.Name,
-                            Layout = (int)r.Room.Layout,
+                            Layout = r.Room.Layout.ToString(),
                             Amenities = r.Room.RoomAmenity
                            .Select(amenity => new AmenityDTO
                            {

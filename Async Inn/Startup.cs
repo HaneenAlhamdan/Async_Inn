@@ -1,7 +1,12 @@
 using Async_Inn.Data;
+using Async_Inn.Models;
+using Async_Inn.Models.Interfaces;
+using Async_Inn.Models.Servieces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,13 +33,41 @@ namespace Async_Inn
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AsyncInnDbContext>(options => {
+            // services.Configure<ApiBehaviorOptions>(opt => opt.SuppressModelStateInvalidFilter = true);
+            services.AddDbContext<AsyncInnDbContext>(options =>
+            {
                 // Our DATABASE_URL from js days
                 string connectionString = Configuration.GetConnectionString("DefaultConnection");
                 options.UseSqlServer(connectionString);
+
             });
 
-            services.AddControllers();
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequireDigit = false;
+            })
+
+            .AddEntityFrameworkStores<AsyncInnDbContext>();
+            //services.AddDbContext<AsyncInnDbContext>(options => {
+            //    // Our DATABASE_URL from js days
+            //    string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //    options.UseSqlServer(connectionString);
+            // });
+
+            services.AddTransient<IRoom, RoomServieces>();
+            services.AddTransient<IHotel, HotelServices>();
+            services.AddTransient<IAmenity, AmenityServieces>();
+            services.AddTransient<IHotelRoom, HotelRoomServiece>();
+            services.AddTransient<IUsersServieces, IdentityUserService>();
+
+              services.AddControllers();
+
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
